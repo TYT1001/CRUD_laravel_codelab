@@ -1,0 +1,9 @@
+CRUD
+
+create (true)
+
+read (true)
+
+update (true)
+
+delete (false)
