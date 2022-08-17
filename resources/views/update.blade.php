@@ -11,6 +11,9 @@
                 </a>
 
                 <h3>{{$post['title']}}</h3>
+                @error('title')
+
+                @enderror
                 <p class="text-muted">{{$post['description']}}</p>
                 <a href="{{route('post#editPage',$post['id'])}}" >
                     <button class="btn btn-light input-group">Edit</button>

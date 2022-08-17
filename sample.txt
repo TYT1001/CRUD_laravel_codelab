@@ -7,3 +7,6 @@ read (true)
 update (true)
 
 delete (false)
+
+
+factory > seeder > database Seeder

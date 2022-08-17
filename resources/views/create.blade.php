@@ -2,32 +2,76 @@
 
 @section('content')
 
-
     <div class="container-lg">
 
+
         <div class="row mt-5 w-100 justify-content-center">
-            <h1 class="text-center mb-5 text-black">Todolist Form</h1>
-            <div class="col-4  text-dark me-3 ">
-                <div class="p-3 bg-dark card">
+            <h1 class="text-center mb-5 text-black"><u>Todolist Form</u></h1>
+            <div class="col-4 text-dark me-3 ">
+                <div class="p-3 bg-dark card shadow-sm">
+                    {{-- @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif --}}
+
+                    @if (session('insertSuccess'))
+                    <div class="alert-message">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{session('insertSuccess')}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                    </div>
+                    @endif
+                    @if (session('updateSuccess'))
+                    <div class="alert-message">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{session('updateSuccess')}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                    </div>
+                    @endif
+
                     <form action="{{route('post#create')}}" method="post">
                         @csrf
-                        <div class="text-group mb-3">
-                            <label for="" class="text-light">Post Title</label>
-                            <input type="text" name="postTitle" id="" class="form-control" placeholder="Enter Post Tilte..." required>
+
+                        <div class="has-validation  mb-3">
+                            <label for="" class="text-light form-label " for="validationServer03">Post Title</label>
+                            <input type="text" name="postTitle" id="validationServer03" aria-describedby="validationServer03Feedback" value="{{old('postTitle')}}" class="form-control @error('postTitle') is-invalid @enderror" placeholder="Enter Post Tilte..." >
+
+                            @error('postTitle')
+                            <div class="invalid-feedback" id="validationServer03Feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+
                         </div>
-                        <div class="text-group mb-3">
-                            <label for="" class="text-light">Post Description</label>
-                            <textarea name="postDescription" id="" cols="30" rows="10" placeholder="Enter Post Description..." class="form-control" required></textarea>
-                        </div>
-                        <div>
-                            <input type="submit" value="Create" class="btn btn-danger">
+
+
+                            <div class="has-validation form-group my-5">
+                                <label for="" class="input-group text-light form-label">Post Description</label>
+                                <textarea name="postDescription" id="" value=""  cols="30" rows="10" placeholder="Enter Post Description..." class=" form-control @error('postDescription') is-invalid @enderror">{{old('postDescription')}}</textarea>
+
+                                @error('postDescription')
+                                <div class="invalid-feedback d-block">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+
+                        <div class="">
+                            <button type="submit" class="btn btn-danger">Create</button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="col-6">
 
-
+                <h3 class="mb-3 text-end">Total Posts {{$posts->total()}}</h3>
                 <div class="data-container">
                     @foreach ($posts as $item)
                     <div class="post p-3 shadow-sm bg-dark mb-3 card ">
@@ -35,7 +79,7 @@
                             <h5 class="text-light">{{$item['title']}}</h5>
                             <h6 class="text-success">{{$item['created_at']}}</h6>
                         </div>
-                        <p class="">
+                        <p>
                             {{Str::words($item['description'],30,'...')}}
                         </p>
                         <div class="text-end">
@@ -72,7 +116,7 @@
 
 
                 </div>
-
+            {{$posts->links()}}
 
             </div>
 
